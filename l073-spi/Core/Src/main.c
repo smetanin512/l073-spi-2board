@@ -50,6 +50,15 @@ enum {
 /* Uncomment this line to use the board as master, if not it is used as slave */
 
 
+/*************************************************/
+/*************************************************/
+/*********** MASTER / SLAVE **********************/
+/*************************************************/
+/*************************************************/
+/*************************************************/
+
+
+
 //#define MASTER_BOARD
 
 
@@ -160,23 +169,22 @@ int main(void)
 		HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
 		HAL_Delay(100);
 	}
-#endif /* MASTER_BOARD */
+	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
+	if(HAL_SPI_TransmitReceive_DMA(&hspi2,(uint8_t*)aTxBuffer,(uint8_t *)aRxBuffer, BUFFERSIZE) != HAL_OK)
+	{
+		/* Transfer error in transmission process */
+		Error_Handler();
+	}
+	/*END MASTER_BOARD */
+#else/* SLAVE_BOARD */
 
-	/*##-2- Start the Full Duplex Communication process ########################*/
-	/* While the SPI in TransmitReceive process, user can transmit data through
-     "aTxBuffer" buffer & receive data through "aRxBuffer" */
-	if(HAL_SPI_TransmitReceive_DMA(&hspi2, (uint8_t*)aTxBuffer, (uint8_t *)aRxBuffer, BUFFERSIZE) != HAL_OK)
+	if(HAL_SPI_TransmitReceive_DMA(&hspi2,(uint8_t*)aTxBuffer,(uint8_t *)aRxBuffer, BUFFERSIZE) != HAL_OK)
 	{
 		/* Transfer error in transmission process */
 		Error_Handler();
 	}
 
-	/*##-3- Wait for the end of the transfer ###################################*/
-	/*  Before starting a new communication transfer, you must wait the callback call
-      to get the transfer complete confirmation or an error detection.
-      For simplicity reasons, this example is just waiting till the end of the
-      transfer, but application may perform other tasks while transfer operation
-      is ongoing. */
+
 	while (wTransferState == TRANSFER_WAIT)
 	{
 	}
@@ -195,6 +203,20 @@ int main(void)
 		Error_Handler();
 		break;
 	}
+	HAL_Delay(3000);
+#endif
+
+	/*##-2- Start the Full Duplex Communication process ########################*/
+	/* While the SPI in TransmitReceive process, user can transmit data through
+     "aTxBuffer" buffer & receive data through "aRxBuffer" */
+
+	/*##-3- Wait for the end of the transfer ###################################*/
+	/*  Before starting a new communication transfer, you must wait the callback call
+      to get the transfer complete confirmation or an error detection.
+      For simplicity reasons, this example is just waiting till the end of the
+      transfer, but application may perform other tasks while transfer operation
+      is ongoing. */
+
 
 
   /* USER CODE END 2 */
@@ -203,6 +225,12 @@ int main(void)
   /* USER CODE BEGIN WHILE */
 	while (1)
 	{
+//#ifdef MASTER_BOARD
+		//#endif
+
+		HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+		HAL_Delay(500);
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
