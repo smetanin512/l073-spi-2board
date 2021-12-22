@@ -170,7 +170,7 @@ int main(void)
 		HAL_Delay(100);
 	}
 	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
-	if(HAL_SPI_TransmitReceive_DMA(&hspi2,(uint8_t*)aTxBuffer,(uint8_t *)aRxBuffer, BUFFERSIZE) != HAL_OK)
+	if(HAL_SPI_Transmit_DMA(&hspi2,(uint8_t*)aTxBuffer, BUFFERSIZE) != HAL_OK)
 	{
 		/* Transfer error in transmission process */
 		Error_Handler();
@@ -178,7 +178,7 @@ int main(void)
 	/*END MASTER_BOARD */
 #else/* SLAVE_BOARD */
 
-	if(HAL_SPI_TransmitReceive_DMA(&hspi2,(uint8_t*)aTxBuffer,(uint8_t *)aRxBuffer, BUFFERSIZE) != HAL_OK)
+	if(HAL_SPI_Receive_DMA(&hspi2,(uint8_t *)aRxBuffer, BUFFERSIZE) != HAL_OK)
 	{
 		/* Transfer error in transmission process */
 		Error_Handler();
@@ -309,7 +309,7 @@ static void MX_SPI2_Init(void)
   hspi2.Init.CLKPolarity = SPI_POLARITY_LOW;
   hspi2.Init.CLKPhase = SPI_PHASE_1EDGE;
   hspi2.Init.NSS = SPI_NSS_SOFT;
-  hspi2.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_2;
+  hspi2.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_64;
   hspi2.Init.FirstBit = SPI_FIRSTBIT_MSB;
   hspi2.Init.TIMode = SPI_TIMODE_DISABLE;
   hspi2.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
@@ -426,7 +426,7 @@ static void MX_GPIO_Init(void)
  *         you can add your own implementation.
  * @retval None
  */
-void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi)
+void HAL_SPI_RxCpltCallback(SPI_HandleTypeDef *hspi)
 {
 	/* Turn LED on: Transfer in transmission/reception process is correct */
 	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);
