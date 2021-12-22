@@ -188,6 +188,7 @@ int main(void)
 	while (wTransferState == TRANSFER_WAIT)
 	{
 	}
+	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);
 
 	switch(wTransferState)
 	{
@@ -429,7 +430,7 @@ static void MX_GPIO_Init(void)
 void HAL_SPI_RxCpltCallback(SPI_HandleTypeDef *hspi)
 {
 	/* Turn LED on: Transfer in transmission/reception process is correct */
-	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);
+//	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);
 	wTransferState = TRANSFER_COMPLETE;
 }
 
