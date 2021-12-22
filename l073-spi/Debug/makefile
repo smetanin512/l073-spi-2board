@@ -61,8 +61,8 @@ all: main-build
 main-build: l073-spi.elf secondary-outputs
 
 # Tool invocations
-l073-spi.elf: $(OBJS) $(USER_OBJS) /home/user/STM32CubeIDE/workspace170/l073-spi/STM32L073RZTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "l073-spi.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m0plus -T"/home/user/STM32CubeIDE/workspace170/l073-spi/STM32L073RZTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="l073-spi.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+l073-spi.elf: $(OBJS) $(USER_OBJS) /home/user/projects/l073-spi-2board/l073-spi/STM32L073RZTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "l073-spi.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m0plus -T"/home/user/projects/l073-spi-2board/l073-spi/STM32L073RZTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="l073-spi.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

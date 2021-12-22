@@ -161,7 +161,7 @@ int main(void)
 	/*##-2- Start the Full Duplex Communication process ########################*/
 	/* While the SPI in TransmitReceive process, user can transmit data through
      "aTxBuffer" buffer & receive data through "aRxBuffer" */
-	if(HAL_SPI_TransmitReceive_IT(&hspi2, (uint8_t*)aTxBuffer, (uint8_t *)aRxBuffer, BUFFERSIZE) != HAL_OK)
+	if(HAL_SPI_TransmitReceive_DMA(&hspi2, (uint8_t*)aTxBuffer, (uint8_t *)aRxBuffer, BUFFERSIZE) != HAL_OK)
 	{
 		/* Transfer error in transmission process */
 		Error_Handler();
